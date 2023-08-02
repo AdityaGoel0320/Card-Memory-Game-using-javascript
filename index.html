@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <link rel="stylesheet" href="css/style.css">-->
+<!--    subscribe to THAPA TECHNICAL-->
+    <style>
+        *{margin: 0; padding: 0;box-sizing: border-box}
+
+        :root{
+            --bg-main:#464646;
+            --bg-card:#2D2727;
+            --border-color: #efc745;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 5rem;
+            height: 100vh;
+            background-color: var(--bg-main);
+        }
+
+        h1{
+            color: #fff;
+            font-family: "Lexend Deca Light";
+            font-size: 4rem;
+        }
+
+        span{
+            color: var(--border-color);
+        }
+
+        #card-section{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-gap: 2rem;
+        }
+
+        /*.card{*/
+        /*    width: 10rem;*/
+        /*    height: 10rem;*/
+        /*    background-color: var(--bg-card);*/
+        /*    background-size: contain;*/
+        /*    border-radius: .6rem;*/
+        /*    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;*/
+        /*    padding: 2rem;*/
+        /*}*/
+
+        /*.card_selected{*/
+        /*    border: .2rem solid var(--border-color);*/
+        /*}*/
+
+        /*.card_match{*/
+        /*    border: .2rem solid purple;*/
+        /*}*/
+
+        .card {
+            position: relative;
+            transition: all .4s linear;
+            transform-style: preserve-3d;
+        }
+
+        .card,
+        .back-card,
+        .front-card {
+            height: 10rem;
+            width: 10rem;
+        }
+
+        .back-card,
+        .front-card {
+            position: absolute;
+            backface-visibility: hidden;
+        }
+
+        .front-card {
+            background: var(--border-color);
+            background-size: contain;
+            border-radius: .6rem;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            padding: 2rem;
+        }
+
+        .back-card {
+            transform: rotateY(180deg);
+            /*background-color: #6589F9;*/
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            padding: 2rem;
+        }
+
+        .card_selected{
+            transform: rotateY(180deg);
+        }
+
+        .card_match .front-card{
+            background-color: var(--bg-card);
+        }
+    </style>
+</head>
+
+<body>
+<h1>Match The <span>Images</span></h1>
+<section id="card-section"></section>
+
+<script src="js/index.js">
+    let cardsArray = [
+        {
+            'name': 'CSS',
+            // 'img': 'http://thapatechnical.online/logos/css.png',
+            "img" : "./pizza.png"
+        },
+        {
+            'name': 'HTML',
+            // 'img': 'http://thapatechnical.online/logos/html5.png',
+            "img" : "data:image/jpeg;base64,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"
+        },
+        {
+            'name': 'jQuery',
+            'img': 'http://thapatechnical.online/logos/jquery.png',
+        },
+        {
+            'name': 'JS',
+            'img': 'http://thapatechnical.online/logos/js.png',
+        },
+        {
+            'name': 'Node',
+            'img': 'http://thapatechnical.online/logos/nodejs.png',
+        },
+        {
+            'name': 'Python',
+            'img': 'http://thapatechnical.online/logos/python.png',
+        }
+    ];
+
+
+    const parentDiv = document.querySelector('#card-section');
+
+    // step 2 to duplicate each card
+    const gameCard = cardsArray.concat(cardsArray)
+    console.log(gameCard)
+
+    // steps 3
+    // Note that this method creates a new shuffled array instead of modifying the original one.
+    // const myNumbers = (array) => {
+    //     for (let i = array.length - 1; i > 0; i--) {
+    //         let j = Math.floor(Math.random() * (i + 1))
+    //         // console.log(i, j)
+    //         let temp = array[i]
+    //         array[i] = array[j]
+    //         array[j] = temp
+    //     }
+    //     return array
+    // }
+    //
+    // const shuffledChild = myNumbers(gameCard)
+    let shuffledChild = Array.from(gameCard).sort(() => 0.5 - Math.random());
+
+
+    let clickCount = 0;
+    let firstCard = "";
+    let secondCard = "";
+
+
+    // styling the match card
+    const card_matches = () => {
+        let card_selected = document.querySelectorAll('.card_selected');
+
+        card_selected.forEach((curElem) => {
+            curElem.classList.add('card_match')
+        })
+    }
+
+
+    // step 7
+
+    const resetGame = () => {
+        firstCard = "";
+        secondCard = "";
+        clickCount = 0;
+
+        let card_selected = document.querySelectorAll('.card_selected');
+
+        card_selected.forEach((curElem) => {
+            curElem.classList.remove('card_selected')
+        })
+
+    }
+
+    // step 4
+    parentDiv.addEventListener('click', (event) => {
+        let curCard = event.target;
+
+        if(curCard.id === "card-section"){return false }
+
+        clickCount ++;
+
+        if(clickCount < 3){
+
+            if(clickCount === 1){
+                firstCard = curCard.parentNode.dataset.name;
+                curCard.parentNode.classList.add('card_selected');
+            }else{
+                secondCard = curCard.parentNode.dataset.name;
+                curCard.parentNode.classList.add('card_selected');
+            }
+
+            if(firstCard !== "" && secondCard !== ""){
+                if(firstCard === secondCard){
+                    // curCard.classList.add('card_match')
+                    setTimeout(() => {
+                        card_matches()
+                        resetGame()
+                    }, 1000)
+
+                }else{
+                    setTimeout(() => {
+                        resetGame()
+                    }, 1000)
+                }
+            }
+
+        }
+
+    })
+
+
+    // step 1 to add the card
+    for(let i=0; i<shuffledChild.length; i++){
+
+        const childDiv = document.createElement('div')
+        childDiv.classList.add('card')
+        childDiv.dataset.name = shuffledChild[i].name;
+        // childDiv.style.backgroundImage = `url(${shuffledChild[i].img})`;
+
+        const front_div = document.createElement('div');
+        front_div.classList.add('front-card')
+
+        const back_div = document.createElement('div');
+        back_div.classList.add('back-card')
+
+        back_div.style.backgroundImage = `url(${shuffledChild[i].img})`;
+
+        parentDiv.appendChild(childDiv)
+
+        childDiv.appendChild(front_div)
+        childDiv.appendChild(back_div)
+    }
+
+    
+</script>
+</body>
+</html>
+	
+	
+	
